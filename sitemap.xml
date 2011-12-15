@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://jiggliemon.github.com/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools/
+        </loc>
+        <lastmod>2011-12-15T12:42:12-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://jiggliemon.github.com/blog/archives/</loc>
-        <lastmod>2011-12-15T09:27:45-08:00</lastmod>
+        <lastmod>2011-12-15T12:42:12-08:00</lastmod>
     </url>
     <url>
         <loc>http://jiggliemon.github.com/</loc>
-        <lastmod>2011-12-15T09:27:45-08:00</lastmod>
+        <lastmod>2011-12-15T12:42:12-08:00</lastmod>
     </url>
 </urlset>

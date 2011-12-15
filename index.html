@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="Chris Pojer&#8217;s Interface class mutates a class, and inforces a well architected interface on your class. The Interface is checked when the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,12 +18,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jiggliemon.github.com">
+  <link rel="canonical" href="
+	http://jiggliemon.github.com
+	
+		
+	
+  ">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/ender.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -65,6 +70,65 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools/">Custom Class Constructors With Interface Enforcement in Mootools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-30T00:00:00-07:00" pubdate data-updated="true">Apr 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chris Pojer&#8217;s Interface class mutates a class, and inforces a well architected interface on your class.  The Interface is checked when the class&#8217;s &#8220;initialize&#8221; method is run. What we&#8217;re doing here is pre-attaching a pre-declared interface to a new <code>Module</code> constructor.  This module constructor ensures that the <code>namespace</code> property is declared - an is a string; Also it states that <code>theother</code> property is a function.  This is how I enforce a particular class structure on the rest of the team for large scal projects.</p>
+
+<p>For more information on this particular Interface mixin, look at <a href="http://cpojer.net/MooTools/interface/Demos/Example.js" target="_blank">this example</a> and download Chris Pojer&#8217;s interface <a href="https://github.com/cpojer/mootools-interface" target="_blank">here</a>.</p>
+
+<pre><code>var TheModuleInterface = new Interface({
+      namespace: String,
+      theother: Function
+});
+
+var Module = new Type('Module', function (params){
+    // Mind the order.  Your Interface needs to be the first argument when appending.
+    params = Object.append({ Interface: TheModuleInterface }, params || {} ) ;
+    return new Class(params);
+});
+
+var aModuleInstance = new Module({
+    theother: "some string",
+    namespace: {some:'object'},
+    initialize: function(){
+        // Remember your module needs an initialize method...
+    }
+});
+var theMod = new Mod(); // Uncaught Error: Property "namespace" is implemented but not an instance of "String"
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -76,6 +140,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools/">Custom Class Constructors With Interface Enforcement In Mootools</a>
+      </li>
     
   </ul>
 </section>
