@@ -1,3 +1,7 @@
 {% comment %}
   Add content to be output at the bottom of each page. (You might use this for analytics scripts, for example)
 {% endcomment %}
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+{% if site.github_user %}
+<script src="{{ root_url }}/js/github.js"> </script>
+{% endif %}
