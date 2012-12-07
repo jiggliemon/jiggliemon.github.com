@@ -1,3 +1,10 @@
+---
+layout: post
+title: "A walk through clientside events"
+date: 2012-02-23
+published: false
+---
+
 ## An exercise in event based programming
 
 ### Events in the wild
