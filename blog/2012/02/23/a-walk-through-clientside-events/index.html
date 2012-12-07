@@ -7,13 +7,13 @@
 <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Lé Blog de Chasé</title>
+  <title>A walk through clientside events - Lé Blog de Chasé</title>
   <meta name="author" content="Chase Wilson">
 
   
-  <meta name="description" content="Blog Archive 2012 A walk through clientside events
-Feb 23 2012 2011 Labled statements in javascript
-Dec 16 2011 Custom Class Constructors With &hellip;">
+  <meta name="description" content="An exercise in event based programming Events in the wild Describe Event Based architectures, and list off patterns.
+- Mediator Pattern
+- Hollywood &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,7 +25,7 @@ Dec 16 2011 Custom Class Constructors With &hellip;">
   <link rel="canonical" href="
 	http://jiggliemon.github.com
 	
-		/blog/archives
+		/blog/2012/02/23/a-walk-through-clientside-events
 	
   ">
   <link href="/favicon.png" rel="icon">
@@ -92,54 +92,182 @@ Dec 16 2011 Custom Class Constructors With &hellip;">
     <div id="main-wrapper">
       <div id="main-inner" class="row">
         <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">A Walk Through Clientside Events</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-23T00:00:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><h2>An exercise in event based programming</h2>
 
-  
-  <h2>2012</h2>
+<h3>Events in the wild</h3>
 
-<article>
-  
-<h1><a href="/blog/2012/02/23/a-walk-through-clientside-events/">A walk through clientside events</a></h1>
-<time datetime="2012-02-23T00:00:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>23</span> <span class='year'>2012</span></time>
+<p>Describe Event Based architectures, and list off patterns.<br/>
+- Mediator Pattern<br/>
+- Hollywood Pattern</p>
 
+<p>The DOM has built in events on elements<br/>
+- the DOM is a bad place to store you logical code.<br/>
+- DOM events should act as relays to a more ubiquitous event handling system</p>
 
-</article>
-
-
-
-  
-  <h2>2011</h2>
-
-<article>
-  
-<h1><a href="/blog/2011/12/16/labled-statements-in-javascript/">Labled statements in javascript</a></h1>
-<time datetime="2011-12-16T00:00:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>16</span> <span class='year'>2011</span></time>
+<ul>
+<li><p><a href="http://www.youtube.com/watch?v=vXjVFPosQHw">Scalable JavaScript Application Architecture</a> by <a href="https://twitter.com/slicknet">Nicholas Zakas</a></p></li>
+<li><p><a href="http://twitter.com/addyosmani">Addy Osmani</a> expands on Zakas&#8217;s talk in <a href="http://addyosmani.com/largescalejavascript">Pattens for Large-Scale JavaScript Application Architecture</a>.</p></li>
+<li><p><a href="http://keetology.com/blog/2010/10/01/modules-and-callbacks-going-hollywood-with-mootools">Modules and Callbacks: Going Hollywood with Mootools</a> by <a href="https://twitter.com/keeto">Mark Obcena</a></p></li>
+</ul>
 
 
-</article>
+<h3>The Goals</h3>
+
+<ul>
+<li>Decouple objects</li>
+<li>Provide consistency and transparency</li>
+</ul>
 
 
+<h3>Basic Event Structure</h3>
 
-<article>
-  
-<h1><a href="/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools/">Custom Class Constructors With Interface Enforcement In Mootools</a></h1>
-<time datetime="2011-04-30T00:00:00-07:00" pubdate><span class='month'>Apr</span> <span class='day'>30</span> <span class='year'>2011</span></time>
+<p>For simplicity&#8217;s sake, we&#8217;re going to place our Mediator object in the global space and we&#8217;re going to assume some ES5 methods are available.</p>
+
+<ul>
+<li><h5>Mediator#addEvent</h5>
+
+<p>We need a way to queue up events</p></li>
+<li><h5>Mediator#removeEvent</h5></li>
+<li><h5>Mediator#fireEvent</h5></li>
+</ul>
 
 
-</article>
+<p>Some Description:</p>
 
+<pre><code>(function (win, undefined) {
+
+    function remove (from, to) {
+        var rest = this.slice((to || from) + 1 || this.length);
+        this.length = from &lt; 0 ? this.length + from : from;
+        return this.push.apply(this, rest);
+    }
+
+    win.Mediator = {
+        _events: {}
+        addEvent: function (key, fn) {
+            var event = _events[key] || [];
+            event.push(fn);
+        },
+        removeEvent: function (key, fn) {
+            var event = _events[key];
+            if(event === undefined) {
+                event.forEach(function(func, i){
+                    if(func === fn) {
+                        event = remove.call(event,i); 
+                    }
+                })
+            }
+        },
+        fireEvents: function (key) {
+            var args = Array.prototype.slice.call(arguments, 1),
+                event = this._events[key];
+            if(event === undefined) {
+                event.forEach(function(fn,i) {
+                    fn.apply(this,args);
+                });
+            }
+        }
+    };
+}(window));
+</code></pre>
+
+<h4>Drawbacks of using <code>Mock</code> events</h4>
+
+<h3>Latched Events</h3>
+
+<ul>
+<li>Examples of native latched events</li>
+<li>When you want to latch an event</li>
+<li>Code examples</li>
+</ul>
+
+
+<p>Something</p>
+
+<pre><code>Mediator.addEvent('DOM.ready', function() {
+
+});
+</code></pre>
+
+<h3>Compound Events</h3>
+
+<pre><code>Mediator.addEvent(['DOM.ready','FB.ready'], function() {
+
+});
+</code></pre>
+
+<h3>A Practical Example</h3>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Chase Wilson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-23T00:00:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jiggliemon.github.com/blog/2012/02/23/a-walk-through-clientside-events/" data-via="jiggliemon" data-counturl="http://jiggliemon.github.com/blog/2012/02/23/a-walk-through-clientside-events/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/12/16/labled-statements-in-javascript/" title="Previous Post: Labled statements in javascript">&laquo; Labled statements in javascript</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

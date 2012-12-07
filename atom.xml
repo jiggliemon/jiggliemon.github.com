@@ -1,17 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Lé Blog de Chasé]]></title>
   <link href="http://jiggliemon.github.com/atom.xml" rel="self"/>
   <link href="http://jiggliemon.github.com/"/>
-  <updated>2011-12-15T12:56:10-08:00</updated>
+  <updated>2012-12-06T16:02:18-08:00</updated>
   <id>http://jiggliemon.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Chase Wilson]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A walk through clientside events]]></title>
+    <link href="http://jiggliemon.github.com/blog/2012/02/23/a-walk-through-clientside-events/"/>
+    <updated>2012-02-23T00:00:00-08:00</updated>
+    <id>http://jiggliemon.github.com/blog/2012/02/23/a-walk-through-clientside-events</id>
+    <content type="html"><![CDATA[<h2>An exercise in event based programming</h2>
+
+<h3>Events in the wild</h3>
+
+<p>Describe Event Based architectures, and list off patterns.<br/>
+- Mediator Pattern<br/>
+- Hollywood Pattern</p>
+
+<p>The DOM has built in events on elements<br/>
+- the DOM is a bad place to store you logical code.<br/>
+- DOM events should act as relays to a more ubiquitous event handling system</p>
+
+<ul>
+<li><p><a href="http://www.youtube.com/watch?v=vXjVFPosQHw">Scalable JavaScript Application Architecture</a> by <a href="https://twitter.com/slicknet">Nicholas Zakas</a></p></li>
+<li><p><a href="http://twitter.com/addyosmani">Addy Osmani</a> expands on Zakas&#8217;s talk in <a href="http://addyosmani.com/largescalejavascript">Pattens for Large-Scale JavaScript Application Architecture</a>.</p></li>
+<li><p><a href="http://keetology.com/blog/2010/10/01/modules-and-callbacks-going-hollywood-with-mootools">Modules and Callbacks: Going Hollywood with Mootools</a> by <a href="https://twitter.com/keeto">Mark Obcena</a></p></li>
+</ul>
+
+
+<h3>The Goals</h3>
+
+<ul>
+<li>Decouple objects</li>
+<li>Provide consistency and transparency</li>
+</ul>
+
+
+<h3>Basic Event Structure</h3>
+
+<p>For simplicity&#8217;s sake, we&#8217;re going to place our Mediator object in the global space and we&#8217;re going to assume some ES5 methods are available.</p>
+
+<ul>
+<li><h5>Mediator#addEvent</h5>
+
+<p>We need a way to queue up events</p></li>
+<li><h5>Mediator#removeEvent</h5></li>
+<li><h5>Mediator#fireEvent</h5></li>
+</ul>
+
+
+<p>Some Description:</p>
+
+<pre><code>(function (win, undefined) {
+
+    function remove (from, to) {
+        var rest = this.slice((to || from) + 1 || this.length);
+        this.length = from &lt; 0 ? this.length + from : from;
+        return this.push.apply(this, rest);
+    }
+
+    win.Mediator = {
+        _events: {}
+        addEvent: function (key, fn) {
+            var event = _events[key] || [];
+            event.push(fn);
+        },
+        removeEvent: function (key, fn) {
+            var event = _events[key];
+            if(event === undefined) {
+                event.forEach(function(func, i){
+                    if(func === fn) {
+                        event = remove.call(event,i); 
+                    }
+                })
+            }
+        },
+        fireEvents: function (key) {
+            var args = Array.prototype.slice.call(arguments, 1),
+                event = this._events[key];
+            if(event === undefined) {
+                event.forEach(function(fn,i) {
+                    fn.apply(this,args);
+                });
+            }
+        }
+    };
+}(window));
+</code></pre>
+
+<h4>Drawbacks of using <code>Mock</code> events</h4>
+
+<h3>Latched Events</h3>
+
+<ul>
+<li>Examples of native latched events</li>
+<li>When you want to latch an event</li>
+<li>Code examples</li>
+</ul>
+
+
+<p>Something</p>
+
+<pre><code>Mediator.addEvent('DOM.ready', function() {
+
+});
+</code></pre>
+
+<h3>Compound Events</h3>
+
+<pre><code>Mediator.addEvent(['DOM.ready','FB.ready'], function() {
+
+});
+</code></pre>
+
+<h3>A Practical Example</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Labled statements in javascript]]></title>
+    <link href="http://jiggliemon.github.com/blog/2011/12/16/labled-statements-in-javascript/"/>
+    <updated>2011-12-16T00:00:00-08:00</updated>
+    <id>http://jiggliemon.github.com/blog/2011/12/16/labled-statements-in-javascript</id>
+    <content type="html"><![CDATA[<h3>Background</h3>
+
+<p>A few months back I was reading the <a href="http://mootools.net">MooTools</a> project <a href="https://github.com/mootools/slick">slick.js</a> and I saw some <a href="https://github.com/mootools/slick/blob/master/Source/Slick.Finder.js#L277">bit of code</a> that I was sure would cause a syntax error.</p>
+
+<p><code>simpleSelectors: if (simpleSelector) {…}</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Custom Class Constructors With Interface Enforcement In Mootools]]></title>
