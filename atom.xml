@@ -4,7 +4,7 @@
   <title><![CDATA[Lé Blog de Chasé]]></title>
   <link href="http://jiggliemon.github.com/atom.xml" rel="self"/>
   <link href="http://jiggliemon.github.com/"/>
-  <updated>2012-12-06T16:37:03-08:00</updated>
+  <updated>2012-12-06T17:06:06-08:00</updated>
   <id>http://jiggliemon.github.com/</id>
   <author>
     <name><![CDATA[Chase Wilson]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Custom Class Constructors With Interface Enforcement In Mootools]]></title>
+    <title type="html"><![CDATA[Custom Class constructors with interface enforcement with mootools]]></title>
     <link href="http://jiggliemon.github.com/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools/"/>
     <updated>2011-04-30T00:00:00-07:00</updated>
     <id>http://jiggliemon.github.com/blog/2011/04/30/custom-class-constructors-with-interface-enforcement-in-mootools</id>
